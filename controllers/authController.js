@@ -13,6 +13,20 @@ exports.register = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+exports.getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id)
+      .populate("teachSkills learnSkills");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // LOGIN
 exports.login = async (req, res) => {
@@ -28,7 +42,7 @@ exports.login = async (req, res) => {
       message: "Logged in successfully",
       token: generateToken(user._id),   
       user: {
-        id: user._id,
+        _id: user._id,
         name: user.name,
         email: user.email
       }

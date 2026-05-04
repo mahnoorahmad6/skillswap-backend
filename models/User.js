@@ -22,6 +22,21 @@ const userSchema = new mongoose.Schema(
       type: String,
 
     },
+
+    teachSkills: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Skill"
+    }
+  ],
+
+  learnSkills: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Skill"
+    }
+  ]
+
   },
   { timestamps: true }
 );

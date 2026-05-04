@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors'); // 1. Import it
+const skillRoutes = require("./routes/skillRoutes");
 const app = express();
 
 // 2. Enable CORS
@@ -12,5 +13,6 @@ app.use(cors({
 app.use(express.json()); 
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
+app.use("/api/user", skillRoutes);
 
 app.listen(5000, () => console.log('Server running on port 5000'));
