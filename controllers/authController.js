@@ -16,7 +16,7 @@ exports.register = async (req, res) => {
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id)
-      .populate("teachSkills learnSkills");
+      .populate("teachSkills learnSkills connections requestsReceived requestsSent");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -32,7 +32,7 @@ exports.getMe = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate("teachSkills learnSkills connections requestsReceived requestsSent");;
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -41,11 +41,7 @@ exports.login = async (req, res) => {
      res.status(200).json({
       message: "Logged in successfully",
       token: generateToken(user._id),   
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email
-      }
+      user
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

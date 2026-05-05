@@ -35,9 +35,12 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Skill"
     }
-  ]
-
+  ],
+requestsReceived: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+requestsSent:     [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+connections:      [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
+  
   { timestamps: true }
 );
 
