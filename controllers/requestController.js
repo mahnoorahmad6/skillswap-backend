@@ -16,13 +16,12 @@ exports.sendRequest = async (req, res) => {
     receiver.requestsReceived.push(senderId);
     await receiver.save();
 
-    // ✅ Also update sender's requestsSent
+    // Also update sender's requestsSent
     const sender = await User.findById(senderId);
     sender.requestsSent = sender.requestsSent || [];
     sender.requestsSent.push(receiverId);
     await sender.save();
 
-    // ✅ Return updated sender so Redux stays in sync
     const updatedSender = await User.findById(senderId)
       .populate("teachSkills learnSkills connections requestsReceived requestsSent");
 
